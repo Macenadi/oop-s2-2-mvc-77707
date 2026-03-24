@@ -30,7 +30,5 @@ namespace Food.mvc.Data
             : base(options)
         {
         }
-
-
     }
 }
