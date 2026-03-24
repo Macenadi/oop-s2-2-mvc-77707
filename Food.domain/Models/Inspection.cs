@@ -13,8 +13,8 @@ namespace Food.domain.Models
         public Premise Premise { get; set; } = null!;   // Porque?
         public DateTime InspectionDate { get; set; }
         public int Score { get; set; }       // (0-100)
-        public string Outcome { get; set; }    // (Pass/Fail/Conditional Pass)
-        public string Notes { get; set; }
+        public string Outcome { get; set; } = "";   // (Pass/Fail)
+        public string Notes { get; set; } = "";
 
         public ICollection<FollowUp> FollowUps { get; set; } = new List<FollowUp>();
     }

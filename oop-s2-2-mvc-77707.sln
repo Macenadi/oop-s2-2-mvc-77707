@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.37027.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.domain", "Food.domain\Food.domain.csproj", "{6359321B-5182-4CD0-853B-5EFC7C561BA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.mvc", "Food.mvc\Food.mvc.csproj", "{657F92DE-7FA0-4338-B900-DB8E8506CCB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6359321B-5182-4CD0-853B-5EFC7C561BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6359321B-5182-4CD0-853B-5EFC7C561BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6359321B-5182-4CD0-853B-5EFC7C561BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{657F92DE-7FA0-4338-B900-DB8E8506CCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657F92DE-7FA0-4338-B900-DB8E8506CCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{657F92DE-7FA0-4338-B900-DB8E8506CCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{657F92DE-7FA0-4338-B900-DB8E8506CCB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
