@@ -33,7 +33,7 @@
 
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
-                            @if (User.IsInRole("Admin") || User.IsInRole("Inspector") || User.IsInRole("Viewer"))
+                            @if (User.IsInRole("Admin") || User.IsInRole("Inspector") || User.IsInRole("Reader"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Premises" asp-action="Index">Premises</a>
@@ -51,7 +51,7 @@
                                 </li>
                             }
 
-                            @if (User.IsInRole("Admin") || User.IsInRole("Inspector") || User.IsInRole("Viewer"))
+                            @if (User.IsInRole("Admin") || User.IsInRole("Inspector") || User.IsInRole("Viewer") || User.IsInRole("Reader"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">Dashboard</a>

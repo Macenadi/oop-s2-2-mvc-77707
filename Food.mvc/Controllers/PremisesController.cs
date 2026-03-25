@@ -10,7 +10,7 @@ using Food.domain.Models;
 
 namespace Food.mvc.Controllers
 {
-    [Authorize(Roles = "Admin,Inspector,Viewer")]
+    [Authorize(Roles = "Admin,Inspector,Reader")]
     public class PremisesController : Controller
     {
         private readonly ApplicationDbContext _context;

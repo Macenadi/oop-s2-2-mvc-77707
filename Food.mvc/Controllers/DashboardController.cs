@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Food.mvc.Controllers
 {
-    [Authorize(Roles = "Admin,Inspector,Viewer")]
+    [Authorize(Roles = "Admin,Inspector,Viewer,Reader")]
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext _context;

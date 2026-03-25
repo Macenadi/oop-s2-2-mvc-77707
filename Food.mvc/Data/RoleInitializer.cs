@@ -7,7 +7,7 @@ namespace Food.mvc.Data
         // ✅ CRIAR ROLES
         public static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            string[] roles = { "Admin", "Inspector", "Viewer" };
+            string[] roles = { "Admin", "Inspector", "Viewer", "Reader" };
 
             foreach (var role in roles)
             {
