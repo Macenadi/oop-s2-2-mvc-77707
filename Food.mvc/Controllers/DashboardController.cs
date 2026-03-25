@@ -2,11 +2,9 @@
 using Food.mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Food.mvc.Controllers
 {
-    [Authorize(Roles = "Admin,Viewer,Inspector")]
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -33,14 +31,18 @@ namespace Food.mvc.Controllers
 
             if (!string.IsNullOrEmpty(town))
             {
-                inspectionsQuery = inspectionsQuery.Where(i => i.Premise.Town == town);
-                followUpsQuery = followUpsQuery.Where(f => f.Inspection.Premise.Town == town);
+                inspectionsQuery = inspectionsQuery.Where(i => i.Premise != null && i.Premise.Town == town);
+                followUpsQuery = followUpsQuery.Where(f => f.Inspection != null &&
+                                                           f.Inspection.Premise != null &&
+                                                           f.Inspection.Premise.Town == town);
             }
 
             if (!string.IsNullOrEmpty(riskRating))
             {
-                inspectionsQuery = inspectionsQuery.Where(i => i.Premise.RiskRating == riskRating);
-                followUpsQuery = followUpsQuery.Where(f => f.Inspection.Premise.RiskRating == riskRating);
+                inspectionsQuery = inspectionsQuery.Where(i => i.Premise != null && i.Premise.RiskRating == riskRating);
+                followUpsQuery = followUpsQuery.Where(f => f.Inspection != null &&
+                                                           f.Inspection.Premise != null &&
+                                                           f.Inspection.Premise.RiskRating == riskRating);
             }
 
             var model = new DashboardViewModel
@@ -69,6 +71,10 @@ namespace Food.mvc.Controllers
                     .Select(p => p.RiskRating)
                     .Distinct()
                     .OrderBy(r => r)
+                    .ToListAsync(),
+
+                FilteredInspections = await inspectionsQuery
+                    .OrderByDescending(i => i.InspectionDate)
                     .ToListAsync()
             };
 

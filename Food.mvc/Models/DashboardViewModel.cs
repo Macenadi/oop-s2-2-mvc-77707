@@ -1,4 +1,6 @@
-﻿namespace Food.mvc.Models
+﻿using Food.domain.Models;
+
+namespace Food.mvc.Models
 {
     public class DashboardViewModel
     {
@@ -11,5 +13,7 @@
 
         public List<string> Towns { get; set; } = new();
         public List<string> RiskRatings { get; set; } = new();
+
+        public List<Inspection> FilteredInspections { get; set; } = new();
     }
 }
