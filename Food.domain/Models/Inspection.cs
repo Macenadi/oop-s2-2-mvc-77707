@@ -10,7 +10,7 @@ namespace Food.domain.Models
     {
         public int Id { get; set; }
         public int PremiseId { get; set; }
-        public Premise Premise { get; set; } = null!;   // Porque?
+        public Premise? Premise { get; set; }    // Porque?
         public DateTime InspectionDate { get; set; }
         public int Score { get; set; }       // (0-100)
         public string Outcome { get; set; } = "";   // (Pass/Fail)

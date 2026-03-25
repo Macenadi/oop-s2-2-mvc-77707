@@ -10,7 +10,7 @@ namespace Food.domain.Models
     {
         public int Id { get; set; }
         public int InspectionId { get; set; }
-        public Inspection Inspection { get; set; } = null!;
+        public Inspection? Inspection { get; set; } 
 
         public DateTime DueDate { get; set; }
         public string Status { get; set; } = "";
