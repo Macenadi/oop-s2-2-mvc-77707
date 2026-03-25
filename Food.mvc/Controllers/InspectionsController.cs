@@ -11,7 +11,7 @@ using Food.domain.Models;
 
 namespace Food.mvc.Controllers
 {
-    [Authorize(Roles = "Admin,Inspector")]
+    [Authorize(Roles = "Admin,Inspector,Viewer")]
     public class InspectionsController : Controller
     {
         private readonly ApplicationDbContext _context;
