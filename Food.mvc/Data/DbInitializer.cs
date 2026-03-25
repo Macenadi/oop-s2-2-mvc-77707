@@ -25,9 +25,9 @@ namespace Food.mvc.Data
                 new Premise { Name = "Golden Grill", Address = "9 Bridge Street", Town = "Galway", RiskRating = "High" },
                 new Premise { Name = "Healthy Corner", Address = "14 Oak Avenue", Town = "Galway", RiskRating = "Low" },
                 new Premise { Name = "Urban Pizza", Address = "77 High Street", Town = "Galway", RiskRating = "Medium" },
-                new Premise { Name = "Morning Brew", Address = "31 Elm Road", Town = "Limerick", RiskRating = "Low" },
-                new Premise { Name = "River Diner", Address = "52 Mill Lane", Town = "Limerick", RiskRating = "Medium" },
-                new Premise { Name = "Fire Wok", Address = "88 Castle Street", Town = "Limerick", RiskRating = "High" }
+                new Premise { Name = "Morning Brew", Address = "31 Elm Road", Town = "Cork", RiskRating = "Low" },
+                new Premise { Name = "River Diner", Address = "52 Mill Lane", Town = "Dublin", RiskRating = "Medium" },
+                new Premise { Name = "Fire Wok", Address = "88 Castle Street", Town = "Galway", RiskRating = "High" }
             };
 
             context.Premises.AddRange(premises);

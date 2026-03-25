@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Food.mvc.Data;
 using Food.domain.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Food.mvc.Controllers
 {
@@ -23,14 +23,14 @@ namespace Food.mvc.Controllers
             _logger = logger;
         }
 
-        // GET: Inspections
+        // Admin e Inspector podem ver
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Inspections.Include(i => i.Premise);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Inspections/Details/5
+        // Admin e Inspector podem ver
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -44,16 +44,18 @@ namespace Food.mvc.Controllers
             return View(inspection);
         }
 
-        // GET: Inspections/Create
+        // Admin e Inspector podem criar
+        [Authorize(Roles = "Admin,Inspector")]
         public IActionResult Create()
         {
             ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Name");
             return View();
         }
 
-        // POST: Inspections/Create
+        // Admin e Inspector podem criar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Inspector")]
         public async Task<IActionResult> Create([Bind("Id,PremiseId,InspectionDate,Score,Outcome,Notes")] Inspection inspection)
         {
             if (ModelState.IsValid)
@@ -76,7 +78,8 @@ namespace Food.mvc.Controllers
             return View(inspection);
         }
 
-        // GET: Inspections/Edit/5
+        // Admin e Inspector podem editar
+        [Authorize(Roles = "Admin,Inspector")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -88,9 +91,10 @@ namespace Food.mvc.Controllers
             return View(inspection);
         }
 
-        // POST: Inspections/Edit/5
+        // Admin e Inspector podem editar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Inspector")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PremiseId,InspectionDate,Score,Outcome,Notes")] Inspection inspection)
         {
             if (id != inspection.Id) return NotFound();
@@ -137,7 +141,8 @@ namespace Food.mvc.Controllers
             return View(inspection);
         }
 
-        // GET: Inspections/Delete/5
+        // Admin e Inspector podem apagar
+        [Authorize(Roles = "Admin,Inspector")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -151,9 +156,10 @@ namespace Food.mvc.Controllers
             return View(inspection);
         }
 
-        // POST: Inspections/Delete/5
+        // Admin e Inspector podem apagar
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Inspector")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var inspection = await _context.Inspections.FindAsync(id);

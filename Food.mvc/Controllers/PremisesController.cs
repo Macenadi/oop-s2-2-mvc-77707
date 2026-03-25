@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Food.domain.Models;
-using Food.mvc.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Food.mvc.Data;
+using Food.domain.Models;
 
 namespace Food.mvc.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Inspector")]
     public class PremisesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,41 +20,36 @@ namespace Food.mvc.Controllers
             _context = context;
         }
 
-        // GET: Premises
+        // Admin e Inspector podem ver
         public async Task<IActionResult> Index()
         {
             return View(await _context.Premises.ToListAsync());
         }
 
-        // GET: Premises/Details/5
+        // Admin e Inspector podem ver
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var premise = await _context.Premises
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (premise == null)
-            {
-                return NotFound();
-            }
+
+            if (premise == null) return NotFound();
 
             return View(premise);
         }
 
-        // GET: Premises/Create
+        // Só Admin pode criar
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Premises/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Só Admin pode criar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Address,Town,RiskRating")] Premise premise)
         {
             if (ModelState.IsValid)
@@ -67,33 +61,25 @@ namespace Food.mvc.Controllers
             return View(premise);
         }
 
-        // GET: Premises/Edit/5
+        // Só Admin pode editar
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var premise = await _context.Premises.FindAsync(id);
-            if (premise == null)
-            {
-                return NotFound();
-            }
+            if (premise == null) return NotFound();
+
             return View(premise);
         }
 
-        // POST: Premises/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Só Admin pode editar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Town,RiskRating")] Premise premise)
         {
-            if (id != premise.Id)
-            {
-                return NotFound();
-            }
+            if (id != premise.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -104,56 +90,44 @@ namespace Food.mvc.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PremiseExists(premise.Id))
-                    {
+                    if (!_context.Premises.Any(e => e.Id == premise.Id))
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(premise);
         }
 
-        // GET: Premises/Delete/5
+        // Só Admin pode apagar
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var premise = await _context.Premises
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (premise == null)
-            {
-                return NotFound();
-            }
+
+            if (premise == null) return NotFound();
 
             return View(premise);
         }
 
-        // POST: Premises/Delete/5
+        // Só Admin pode apagar
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var premise = await _context.Premises.FindAsync(id);
             if (premise != null)
             {
                 _context.Premises.Remove(premise);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PremiseExists(int id)
-        {
-            return _context.Premises.Any(e => e.Id == id);
         }
     }
 }
