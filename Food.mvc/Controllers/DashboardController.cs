@@ -2,9 +2,11 @@
 using Food.mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Food.mvc.Controllers
 {
+    [Authorize(Roles = "Admin,Viewer,Inspector")]
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext _context;
