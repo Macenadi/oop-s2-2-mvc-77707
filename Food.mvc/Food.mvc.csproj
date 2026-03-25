@@ -24,4 +24,10 @@
     <ProjectReference Include="..\Food.domain\Food.domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Inspector\" />
+    <Folder Include="Views\Manager\" />
+  </ItemGroup>
+
 </Project>

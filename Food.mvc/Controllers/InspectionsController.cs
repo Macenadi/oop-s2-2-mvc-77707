@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Food.domain.Models;
 using Food.mvc.Data;
+using Food.domain.Models;
 
 namespace Food.mvc.Controllers
 {
@@ -29,18 +29,13 @@ namespace Food.mvc.Controllers
         // GET: Inspections/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var inspection = await _context.Inspections
                 .Include(i => i.Premise)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (inspection == null)
-            {
-                return NotFound();
-            }
+
+            if (inspection == null) return NotFound();
 
             return View(inspection);
         }
@@ -48,13 +43,11 @@ namespace Food.mvc.Controllers
         // GET: Inspections/Create
         public IActionResult Create()
         {
-            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Address");
+            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Name");
             return View();
         }
 
         // POST: Inspections/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PremiseId,InspectionDate,Score,Outcome,Notes")] Inspection inspection)
@@ -65,78 +58,51 @@ namespace Food.mvc.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Address", inspection.PremiseId);
+
+            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Name", inspection.PremiseId);
             return View(inspection);
         }
 
         // GET: Inspections/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var inspection = await _context.Inspections.FindAsync(id);
-            if (inspection == null)
-            {
-                return NotFound();
-            }
-            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Address", inspection.PremiseId);
+            if (inspection == null) return NotFound();
+
+            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Name", inspection.PremiseId);
             return View(inspection);
         }
 
         // POST: Inspections/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PremiseId,InspectionDate,Score,Outcome,Notes")] Inspection inspection)
         {
-            if (id != inspection.Id)
-            {
-                return NotFound();
-            }
+            if (id != inspection.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(inspection);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InspectionExists(inspection.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(inspection);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Address", inspection.PremiseId);
+
+            ViewData["PremiseId"] = new SelectList(_context.Premises, "Id", "Name", inspection.PremiseId);
             return View(inspection);
         }
 
         // GET: Inspections/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var inspection = await _context.Inspections
                 .Include(i => i.Premise)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (inspection == null)
-            {
-                return NotFound();
-            }
+
+            if (inspection == null) return NotFound();
 
             return View(inspection);
         }

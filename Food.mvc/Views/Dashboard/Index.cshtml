@@ -1,0 +1,83 @@
+﻿@model Food.mvc.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label class="form-label">Town</label>
+            <select name="town" class="form-control">
+                <option value="">All</option>
+                @foreach (var town in Model.Towns)
+                {
+                    if (Model.SelectedTown == town)
+                    {
+                        <option value="@town" selected="selected">@town</option>
+                    }
+                    else
+                    {
+                        <option value="@town">@town</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Risk Rating</label>
+            <select name="riskRating" class="form-control">
+                <option value="">All</option>
+                @foreach (var risk in Model.RiskRatings)
+                {
+                    if (Model.SelectedRiskRating == risk)
+                    {
+                        <option value="@risk" selected="selected">@risk</option>
+                    }
+                    else
+                    {
+                        <option value="@risk">@risk</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+            <a asp-action="Index" class="btn btn-secondary">Clear</a>
+        </div>
+    </div>
+</form>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Inspections This Month</h5>
+                <h2>@Model.InspectionsThisMonth</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Failed Inspections This Month</h5>
+                <h2>@Model.FailedInspectionsThisMonth</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-dark bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Open Overdue Follow-Ups</h5>
+                <h2>@Model.OpenOverdueFollowUps</h2>
+            </div>
+        </div>
+    </div>
+</div>
