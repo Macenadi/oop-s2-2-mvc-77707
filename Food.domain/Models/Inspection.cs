@@ -13,6 +13,8 @@ namespace Food.domain.Models
         public int PremiseId { get; set; }
         public Premise? Premise { get; set; }    // Porque?
         public DateTime InspectionDate { get; set; }
+
+        [Range(0, 100, ErrorMessage = "Score must be between 0 and 100")]
         public int Score { get; set; }       // (0-100)
 
         [Required]

@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 <label asp-for="Score" class="control-label"></label>
-                <input asp-for="Score" class="form-control" />
+                <input asp-for="Score" class="form-control" type="number" min="0" max="100" />
                 <span asp-validation-for="Score" class="text-danger"></span>
             </div>
 
