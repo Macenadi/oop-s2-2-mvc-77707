@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37027.9 d17.14
+VisualStudioVersion = 17.14.37027.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.domain", "Food.domain\Food.domain.csproj", "{6359321B-5182-4CD0-853B-5EFC7C561BA1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.mvc", "Food.mvc\Food.mvc.csproj", "{657F92DE-7FA0-4338-B900-DB8E8506CCB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.Tests", "Food.Tests\Food.Tests.csproj", "{E6FE4609-6F40-4F84-AB29-10EA6E6E92F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{657F92DE-7FA0-4338-B900-DB8E8506CCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{657F92DE-7FA0-4338-B900-DB8E8506CCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{657F92DE-7FA0-4338-B900-DB8E8506CCB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6FE4609-6F40-4F84-AB29-10EA6E6E92F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6FE4609-6F40-4F84-AB29-10EA6E6E92F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6FE4609-6F40-4F84-AB29-10EA6E6E92F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6FE4609-6F40-4F84-AB29-10EA6E6E92F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
