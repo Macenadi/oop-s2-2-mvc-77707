@@ -1,31 +1,147 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+    height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f9ff;
+    color: #1f2d3d;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Faz o conteúdo crescer e empurrar o footer para baixo */
+.container {
+    flex: 1;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Navbar */
+.navbar {
+    background-color: #eaf4ff !important;
+    border-bottom: 1px solid #cfe4ff !important;
+}
+
+.navbar-brand,
+.nav-link {
+    color: #1d4f91 !important;
+    font-weight: 500;
+}
+
+    .nav-link:hover {
+        color: #0d3b66 !important;
+    }
+
+/* Títulos */
+h1, h2, h3, h4 {
+    color: #1d4f91;
+    font-weight: 600;
+}
+
+/* Área principal */
+main {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(29, 79, 145, 0.08);
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Botões */
+.btn-primary {
+    background-color: #4da3ff;
+    border-color: #4da3ff;
+}
+
+    .btn-primary:hover {
+        background-color: #2f8ef5;
+        border-color: #2f8ef5;
+    }
+
+.btn-secondary {
+    background-color: #d9ecff;
+    border-color: #d9ecff;
+    color: #1d4f91;
+}
+
+    .btn-secondary:hover {
+        background-color: #c5e3ff;
+        border-color: #c5e3ff;
+        color: #0d3b66;
+    }
+
+/* Forms */
+.form-control,
+.form-select {
+    border-radius: 10px;
+    border: 1px solid #bfdcff;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #66aefc;
+        box-shadow: 0 0 0 0.2rem rgba(77, 163, 255, 0.2);
+    }
+
+/* Tabelas */
+.table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    .table thead {
+        background-color: #d9ecff;
+        color: #1d4f91;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f7fbff;
+}
+
+/* Details */
+dl.row dt {
+    color: #1d4f91;
+    font-weight: 600;
+}
+
+dl.row dd {
+    background-color: #f7fbff;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+/* Alerts */
+.alert-info {
+    background-color: #eaf4ff;
+    border-color: #cfe4ff;
+    color: #1d4f91;
+}
+
+/* Links em ações */
+a {
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Footer corrigido */
+/* Força o footer a respeitar o fluxo do documento */
+.footer {
+    position: static !important; /* O !important garante que sobrescreva o Bootstrap */
+    width: 100%;
+    background-color: #eaf4ff;
+    padding: 20px 0;
+    margin-top: 30px; /* Cria o espaço necessário após a tabela */
+    clear: both; /* Garante que nenhum elemento flutuante fique ao lado dele */
+}
+
+/* Garante que o container da tabela não tenha overflow escondido */
+.container.flex-grow-1 {
+    display: flex;
+    flex-direction: column;
 }
