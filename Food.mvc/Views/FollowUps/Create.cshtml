@@ -14,9 +14,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="InspectionId" class="control-label"></label>
-                <select asp-for="InspectionId" class="form-control" asp-items="ViewBag.InspectionId"></select>
+                <label class="control-label">Inspection</label>
+                <select asp-for="InspectionId" class="form-control" asp-items="ViewBag.InspectionId" id="inspectionSelect"></select>
                 <span asp-validation-for="InspectionId" class="text-danger"></span>
+            </div>
+
+            <div id="inspectionInfo" class="alert alert-info mt-2">
+                Select an inspection to see information here.
             </div>
 
             <div class="form-group">
@@ -34,7 +38,6 @@
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
-
 
             <div class="form-group">
                 <label asp-for="ClosedDate" class="control-label"></label>
@@ -54,4 +57,39 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const select = document.getElementById("inspectionSelect");
+            const infoBox = document.getElementById("inspectionInfo");
+            const inspections = @Html.Raw(ViewBag.InspectionDetails);
+
+            function updateInspectionInfo() {
+                const selectedId = parseInt(select.value);
+
+                if (!selectedId) {
+                    infoBox.innerHTML = "Select an inspection to see information here.";
+                    return;
+                }
+
+                const selectedInspection = inspections.find(i => i.Id === selectedId);
+
+                if (selectedInspection) {
+                    infoBox.innerHTML = `
+                        <strong>Premise:</strong> ${selectedInspection.PremiseName}<br />
+                        <strong>Inspection Date:</strong> ${selectedInspection.InspectionDate}<br />
+                        <strong>Score:</strong> ${selectedInspection.Score}<br />
+                        <strong>Outcome:</strong> ${selectedInspection.Outcome}<br />
+                        <strong>Notes:</strong> ${selectedInspection.Notes}
+                    `;
+                }
+                else {
+                    infoBox.innerHTML = "Select an inspection to see information here.";
+                }
+            }
+
+            select.addEventListener("change", updateInspectionInfo);
+            updateInspectionInfo();
+        });
+    </script>
 }

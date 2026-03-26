@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    var relatedFollowUps = ViewBag.RelatedFollowUps as List<Food.domain.Models.FollowUp>;
 }
 
 <h1>Details</h1>
@@ -10,32 +11,77 @@
     <h4>FollowUp</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Inspection)
+
+        <dt class="col-sm-2">
+            Premise Name
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Inspection.Notes)
+        <dd class="col-sm-10">
+            @Model.Inspection?.Premise?.Name
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
+            Inspection
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Inspection?.Notes
+        </dd>
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DueDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DueDate)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Status)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Status)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ClosedDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ClosedDate)
         </dd>
+
     </dl>
 </div>
+
+@if (relatedFollowUps != null && relatedFollowUps.Any())
+{
+    <hr />
+    <h4>Other FollowUps for the same Premise</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Inspection Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Closed Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in relatedFollowUps)
+            {
+                <tr>
+                    <td>@item.Inspection?.InspectionDate.ToShortDateString()</td>
+                    <td>@item.DueDate.ToShortDateString()</td>
+                    <td>@item.Status</td>
+                    <td>@item.ClosedDate?.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

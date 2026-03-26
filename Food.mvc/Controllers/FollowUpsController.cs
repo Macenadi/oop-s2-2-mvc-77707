@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Food.mvc.Data;
 using Food.domain.Models;
+using System.Text.Json;
 
 namespace Food.mvc.Controllers
 {
@@ -26,7 +27,9 @@ namespace Food.mvc.Controllers
         // Admin e Inspector podem ver
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.FollowUps.Include(f => f.Inspection);
+            var applicationDbContext = _context.FollowUps
+                .Include(f => f.Inspection)
+                .ThenInclude(i => i.Premise);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,9 +40,23 @@ namespace Food.mvc.Controllers
 
             var followUp = await _context.FollowUps
                 .Include(f => f.Inspection)
+                .ThenInclude(i => i.Premise)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (followUp == null) return NotFound();
+
+            var premiseName = followUp.Inspection?.Premise?.Name;
+
+            var relatedFollowUps = await _context.FollowUps
+                .Include(f => f.Inspection)
+                .ThenInclude(i => i.Premise)
+                .Where(f => f.Id != followUp.Id &&
+                            f.Inspection != null &&
+                            f.Inspection.Premise != null &&
+                            f.Inspection.Premise.Name == premiseName)
+                .ToListAsync();
+
+            ViewBag.RelatedFollowUps = relatedFollowUps;
 
             return View(followUp);
         }
@@ -48,7 +65,23 @@ namespace Food.mvc.Controllers
         [Authorize(Roles = "Admin,Inspector")]
         public IActionResult Create()
         {
-            ViewData["InspectionId"] = new SelectList(_context.Inspections, "Id", "Id");
+            var inspections = _context.Inspections
+                .Include(i => i.Premise)
+                .Select(i => new
+                {
+                    Id = i.Id,
+                    Display = "Inspection #" + i.Id + " - " + i.InspectionDate.ToShortDateString(),
+                    PremiseName = i.Premise.Name,
+                    InspectionDate = i.InspectionDate.ToShortDateString(),
+                    Score = i.Score,
+                    Outcome = i.Outcome,
+                    Notes = i.Notes
+                })
+                .ToList();
+
+            ViewData["InspectionId"] = new SelectList(inspections, "Id", "Display");
+            ViewBag.InspectionDetails = JsonSerializer.Serialize(inspections);
+
             return View();
         }
 
@@ -98,7 +131,23 @@ namespace Food.mvc.Controllers
             var followUp = await _context.FollowUps.FindAsync(id);
             if (followUp == null) return NotFound();
 
-            ViewData["InspectionId"] = new SelectList(_context.Inspections, "Id", "Id", followUp.InspectionId);
+            var inspections = _context.Inspections
+                .Include(i => i.Premise)
+                .Select(i => new
+                {
+                    Id = i.Id,
+                    Display = "Inspection #" + i.Id + " - " + i.InspectionDate.ToShortDateString(),
+                    PremiseName = i.Premise.Name,
+                    InspectionDate = i.InspectionDate.ToShortDateString(),
+                    Score = i.Score,
+                    Outcome = i.Outcome,
+                    Notes = i.Notes
+                })
+                .ToList();
+
+            ViewData["InspectionId"] = new SelectList(inspections, "Id", "Display", followUp.InspectionId);
+            ViewBag.InspectionDetails = JsonSerializer.Serialize(inspections);
+
             return View(followUp);
         }
 

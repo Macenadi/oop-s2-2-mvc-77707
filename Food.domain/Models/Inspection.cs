@@ -10,6 +10,8 @@ namespace Food.domain.Models
     public class Inspection
     {
         public int Id { get; set; }
+
+        [Display(Name = "Premise Name")]
         public int PremiseId { get; set; }
         public Premise? Premise { get; set; }    // Porque?
         public DateTime InspectionDate { get; set; }

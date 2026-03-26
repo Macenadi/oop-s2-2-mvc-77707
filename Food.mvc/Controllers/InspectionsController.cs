@@ -41,6 +41,14 @@ namespace Food.mvc.Controllers
 
             if (inspection == null) return NotFound();
 
+            var relatedInspections = await _context.Inspections
+                .Include(i => i.Premise)
+                .Where(i => i.Id != inspection.Id && i.PremiseId == inspection.PremiseId)
+                .OrderByDescending(i => i.InspectionDate)
+                .ToListAsync();
+
+            ViewBag.RelatedInspections = relatedInspections;
+
             return View(inspection);
         }
 
