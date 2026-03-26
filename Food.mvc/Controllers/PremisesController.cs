@@ -20,13 +20,11 @@ namespace Food.mvc.Controllers
             _context = context;
         }
 
-        // Admin e Inspector podem ver
         public async Task<IActionResult> Index()
         {
             return View(await _context.Premises.ToListAsync());
         }
 
-        // Admin e Inspector podem ver
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -39,29 +37,34 @@ namespace Food.mvc.Controllers
             return View(premise);
         }
 
-        // Só Admin pode criar
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // Só Admin pode criar
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Address,Town,RiskRating")] Premise premise)
         {
+            var exists = await _context.Premises.AnyAsync(p => p.Address == premise.Address);
+
+            if (exists)
+            {
+                ModelState.AddModelError(string.Empty, "A premise with the same address already exists.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(premise);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(premise);
         }
 
-        // Só Admin pode editar
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -73,13 +76,21 @@ namespace Food.mvc.Controllers
             return View(premise);
         }
 
-        // Só Admin pode editar
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Town,RiskRating")] Premise premise)
         {
             if (id != premise.Id) return NotFound();
+
+            var exists = await _context.Premises.AnyAsync(p =>
+                p.Id != premise.Id &&
+                p.Address == premise.Address);
+
+            if (exists)
+            {
+                ModelState.AddModelError(string.Empty, "A premise with the same address already exists.");
+            }
 
             if (ModelState.IsValid)
             {
@@ -95,12 +106,13 @@ namespace Food.mvc.Controllers
                     else
                         throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(premise);
         }
 
-        // Só Admin pode apagar
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -114,7 +126,6 @@ namespace Food.mvc.Controllers
             return View(premise);
         }
 
-        // Só Admin pode apagar
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]

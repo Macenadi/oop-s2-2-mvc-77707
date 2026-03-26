@@ -13,6 +13,7 @@ namespace Food.mvc.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Premise>()
                 .HasMany(p => p.Inspections)
                 .WithOne(i => i.Premise)
@@ -24,6 +25,10 @@ namespace Food.mvc.Data
                 .WithOne(f => f.Inspection)
                 .HasForeignKey(f => f.InspectionId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Premise>()
+                .HasIndex(p => p.Address)
+                .IsUnique();
             // Configure relationships and constraints here if needed
         }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
