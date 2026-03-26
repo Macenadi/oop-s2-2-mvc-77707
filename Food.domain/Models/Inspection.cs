@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace Food.domain.Models
         public Premise? Premise { get; set; }    // Porque?
         public DateTime InspectionDate { get; set; }
         public int Score { get; set; }       // (0-100)
+
+        [Required]
         public string Outcome { get; set; } = "";   // (Pass/Fail)
         public string Notes { get; set; } = "";
 
